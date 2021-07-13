@@ -17,6 +17,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/PortableApps/EclipsePortable/Data/custom-library/dbtableprinter-master/dbtable-printer.jar"/>
+	<classpathentry kind="lib" path="E:/PortableApps/EclipsePortable/Data/workspace/Midterm T3/lib/dbtable-printer.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
