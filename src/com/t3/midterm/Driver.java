@@ -12,7 +12,7 @@ import java.sql.Statement;
 import net.efabrika.util.DBTablePrinter;
 
 /**
- * @author Aidan
+ * @author Aidan, Jacob, Brian
  *
  */
 public class Driver {
