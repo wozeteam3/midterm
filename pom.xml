@@ -27,12 +27,5 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.25</version>
 		</dependency>
-		<dependency>
-			<groupId>com.roufid.tutorials</groupId>
-			<artifactId>example-app</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/lib/yourJar.jar</systemPath>
-		</dependency>
 	</dependencies>
 </project>
