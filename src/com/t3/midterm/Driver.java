@@ -12,7 +12,7 @@ import java.sql.Statement;
 import net.efabrika.util.DBTablePrinter;
 
 /**
- * @author Aidan
+ * @author Aidan, Jacob, Brian
  *
  */
 public class Driver {
@@ -24,6 +24,8 @@ public class Driver {
 		String url = "jdbc:mysql://localhost:3306/sakila";
 		String user = "root";
 		String password = "";
+		
+		
 		
 		try {
 			//Class.forName("com.mysql.cj.jdbc.Driver");
