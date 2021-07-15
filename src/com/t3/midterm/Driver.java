@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 import net.efabrika.util.DBTablePrinter;
 
@@ -24,8 +25,12 @@ public class Driver {
 		String url = "jdbc:mysql://localhost:3306/sakila";
 		String user = "root";
 		String password = "";
-		
-		
+		try(Scanner kb  = new Scanner(System.in)) {
+			System.out.printf("Enter password for %s on %s\n", user, url);
+			password = kb.nextLine();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		try {
 			//Class.forName("com.mysql.cj.jdbc.Driver");
