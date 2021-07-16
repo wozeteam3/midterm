@@ -34,6 +34,7 @@ public class Driver {
 		
 		try {
 			Connection c = DriverManager.getConnection(url, user, password);
+			createEmployee(c,"a","b");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
