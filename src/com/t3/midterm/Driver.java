@@ -25,6 +25,8 @@ public class Driver {
 		String url = "jdbc:mysql://localhost:3306/sakila";
 		String user = "root";
 		String password = "";
+		
+		//TODO switch to getStringInput()
 		try(Scanner kb  = new Scanner(System.in)) {
 			System.out.printf("Enter password for %s on %s\n", user, url);
 			password = kb.nextLine();
@@ -41,6 +43,22 @@ public class Driver {
 		}
 		
 
+	}
+	
+	public static int getIntegerInput() {
+		int input;
+		while(true) {
+			try(Scanner kb  = new Scanner(System.in)) {
+				while (!kb.hasNextInt()) {
+			        kb.next();
+			    }
+			    input =  kb.nextInt();
+			    break;
+			} catch(Exception e) {
+				System.out.println("Please enter only a number:\n");
+			}
+		}
+		return input;
 	}
 	
 	public static void createEmployee(Connection c, String fName,String lName) {
