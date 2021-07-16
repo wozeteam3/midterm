@@ -33,17 +33,29 @@ public class Driver {
 		}
 		
 		try {
-			//Class.forName("com.mysql.cj.jdbc.Driver");
-			Connection connection = DriverManager.getConnection(url, user, password);
-			System.out.println("Successful");
-			String query = "SELECT * FROM ACTOR LIMIT 5";
-			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery(query);
-			DBTablePrinter.printResultSet(rs);
-		} catch (SQLException throwables) {
-			throwables.printStackTrace();
+			Connection c = DriverManager.getConnection(url, user, password);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 
+	}
+	
+	public static void createEmployee(Connection c, String fName,String lName) {
+		System.out.println(String.format("INSERT INTO ACTOR "
+				+ "(first_name,last_name) VALUES ('%s','%s')",
+				fName,lName));
+		String query = String.format("INSERT INTO ACTOR "
+				+ "(first_name,last_name) VALUES ('%s','%s')",
+				fName,lName);
+		Statement statement;
+		try {
+			statement = c.createStatement();
+			statement.execute(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
