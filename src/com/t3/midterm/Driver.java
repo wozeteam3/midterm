@@ -42,7 +42,7 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+			
 		kb.close();
 	}
 	
@@ -53,6 +53,17 @@ public class Driver {
 			kb.nextLine();
 		} catch(Exception e) {
 			System.out.println("Please enter only a number:\n");
+		}
+		return input;
+	}
+	
+	public static String getStringInput() {
+		String input = "";
+		try {
+			input = kb.next();
+			kb.nextLine();
+		} catch(Exception e) {
+			System.out.println("Please enter valid input:\n");
 		}
 		return input;
 	}
