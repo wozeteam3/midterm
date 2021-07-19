@@ -43,6 +43,15 @@ public class Driver {
 
 	}
 	
+	static boolean isInt(String userInput)
+    {
+        for (int i = 0; i < userInput.length(); i++) {
+            if (Character.isDigit(userInput.charAt(i)) == false)
+                return false;
+        } 
+        return true;
+    }
+	
 	public static void createEmployee(Connection c, String fName,String lName) {
 		System.out.println(String.format("INSERT INTO ACTOR "
 				+ "(first_name,last_name) VALUES ('%s','%s')",
