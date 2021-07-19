@@ -17,6 +17,7 @@ import net.efabrika.util.DBTablePrinter;
  *
  */
 public class Driver {
+	public static final Scanner kb = new Scanner(System.in);
 
 	/**
 	 * @param args
@@ -27,7 +28,7 @@ public class Driver {
 		String password = "";
 		
 		//TODO switch to getStringInput()
-		try(Scanner kb  = new Scanner(System.in)) {
+		try {
 			System.out.printf("Enter password for %s on %s\n", user, url);
 			password = kb.nextLine();
 		} catch(Exception e) {
@@ -42,21 +43,16 @@ public class Driver {
 			e.printStackTrace();
 		}
 		
-
+		kb.close();
 	}
 	
 	public static int getIntegerInput() {
-		int input;
-		while(true) {
-			try(Scanner kb  = new Scanner(System.in)) {
-				while (!kb.hasNextInt()) {
-			        kb.next();
-			    }
-			    input =  kb.nextInt();
-			    break;
-			} catch(Exception e) {
-				System.out.println("Please enter only a number:\n");
-			}
+		int input = 0;
+		try {
+			input = kb.nextInt();
+			kb.nextLine();
+		} catch(Exception e) {
+			System.out.println("Please enter only a number:\n");
 		}
 		return input;
 	}
