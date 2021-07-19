@@ -83,5 +83,10 @@ public class Driver {
 			e.printStackTrace();
 		}
 	}
+	public static Employee selectEmployee(Connection c, String lName, String fName) {
+		Employee result = null;
+		
+		return result;
+	}
 
 }
