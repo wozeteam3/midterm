@@ -67,5 +67,21 @@ public class Driver {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void deleteEmployee(Connection c) {
+		//Once selectEmployee is created empID will be employeeToRemove.
+		//Employee employeeToRemove = selectEmployee();
+		int empID = 0;
+		System.out.println(String.format("DELETE * FROM ACTOR WHERE actor_id = " + empID));
+		String query = String.format("DELETE * FROM Actor WHERE actor_id = " + empID);
+		Statement statement;
+		try {
+			statement = c.createStatement();
+			statement.execute(query);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
