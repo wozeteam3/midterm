@@ -84,9 +84,37 @@ public class Driver {
 		}
 	}
 	public static Employee selectEmployee(Connection c, String lName, String fName) {
-		Employee result = null;
+		Employee returnedEmployee = new Employee();
+		System.out.println(String.format("SELECT * FROM ACTOR WHERE first_name = " + fName + " AND last_name = " + lName));
+		String query = String.format("SELECT * FROM ACTOR WHERE first_name = " + fName + " AND last_name = " + lName);
+		Statement statement;
+		try {
+			statement = c.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = statement.executeQuery(query);
+			
+			while (rs.next()) {
+				returnedEmployee.employeeId = rs.getInt(1);
+				returnedEmployee.firstName = rs.getString(2);
+				returnedEmployee.LastName = rs.getString(3);
+		      }
+			System.out.println("Id: " + returnedEmployee.employeeId + " First Name: " + returnedEmployee.firstName + " Last Name " + returnedEmployee.LastName);
+			return returnedEmployee;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			returnedEmployee = null;
+			return returnedEmployee;
+		}
 		
-		return result;
+	}
+	
+	public static String[] inputName() {
+		String[] fullName = new String[2];
+		System.out.println("What is the employee's first name?");
+		fullName[0] = kb.nextLine();
+		System.out.println("What is the employee's last name?");
+		fullName[1] = kb.nextLine();
+		return fullName;
 	}
 
 }
