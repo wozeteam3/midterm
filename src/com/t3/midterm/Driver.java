@@ -25,7 +25,7 @@ public class Driver {
 	public static void main(String[] args) {
 		String url = "jdbc:mysql://localhost:3306/sakila";
 		String user = "root";
-		String password = "";
+		String password = "password!";
 		
 		//TODO switch to getStringInput()
 		try {
@@ -42,8 +42,6 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		updateEmployee();	
-		kb.close();
 	}
 	
 	public static int getIntegerInput() {
@@ -70,18 +68,19 @@ public class Driver {
 	
 	public static void updateEmployee(Connection c) {
 		 System.out.println("How many columns will you be updating?\n");
-		 String numOfValues = kb.nextLine();
-		 if (numOfValues == "3") {
+		 Scanner scanner = new Scanner(System.in);
+		 switch (scanner.next()) {
+		 case "3":
 			 System.out.println("Enter the new Employee id:\n");
-			 String employeeId = kb.nextLine();
+			 String employeeId = kb.next();
 			 System.out.println("Enter the new first name\n ");
-			 String firstName = kb.nextLine();
+			 String firstName = kb.next();
 			 System.out.println("Enter the new last name\n");
-			 String lastName = kb.nextLine();
+			 String lastName = kb.next();
 			 System.out.println("Enter a row value where these new values are going.");
-			 String whereValue = kb.nextLine();
+			 String whereValue = kb.next();
 			 System.out.println("Enter what column that value is in.");
-			 String whereColumn = kb.nextLine();
+			 String whereColumn = kb.next();
 			 String query = String.format("UPDATE sakila.actor SET employee_id = " + employeeId + ",  first_name = '" + firstName +"', last_name = '"+ lastName +"' WHERE " + whereColumn + " = " + whereValue);
 			 Statement statement;
 				try {
@@ -90,121 +89,120 @@ public class Driver {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-			 
-		 }
-		 else if (numOfValues=="2") {
+			 break;
+		 case "2":
 			System.out.println("Enter a column that the first value is going to (actor_id,first_name,last_name)");
-			String set1 = kb.nextLine();
+			String set1 = kb.next();
 			System.out.println("Enter a column that the second value is going to (actor_id,first_name,last_name)");
-			String set2 = kb.nextLine();
+			String set2 = kb.next();
 			System.out.println("Enter the first value");
-			String value1 = kb.nextLine();
+			String value1 = kb.next();
 			System.out.println("Enter the second value");
-			String value2 = kb.nextLine();
+			String value2 = kb.next();
 			System.out.println("Enter a row value where this is going");
-			String whereValue = kb.nextLine();
+			String wherealue = kb.next();
 			System.out.println("Enter what column that value is in");
-			String whereColumn = kb.nextLine();
+			String whereolumn = kb.next();
 			if (set1.toLowerCase()=="actor_id") {
-				if (whereColumn.toLowerCase()=="actor_id") {
-					String query = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereColumn.toLowerCase() + " = " + whereValue);
-					Statement statement;
-					try {
-						statement = c.createStatement();
-						statement.execute(query);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+				if (whereolumn.toLowerCase()=="actor_id") {
+					String qery = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = " + wherealue);
+					 Statement statemen;
+						try {
+							statemen = c.createStatement();
+							statemen.execute(qery);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 				}
 				else {
-					String query = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereColumn.toLowerCase() + " = '" + whereValue +"'");
-					Statement statement;
-					try {
-						statement = c.createStatement();
-						statement.execute(query);
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
+					String uery = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = '" + wherealue +"'");
+					Statement tatement;
+						try {
+							tatement = c.createStatement();
+							tatement.execute(uery);
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
 				}
 		    }
 			else if (set2.toLowerCase()=="actor_id") {
-				if (whereColumn.toLowerCase()=="actor_id") {
-					String query = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereColumn.toLowerCase() + " = " + whereValue);
-					Statement statement;
+				if (whereolumn.toLowerCase()=="actor_id") {
+					String qury = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = " + wherealue);
+					Statement atement;
 					try {
-						statement = c.createStatement();
-						statement.execute(query);
+						atement = c.createStatement();
+						atement.execute(qury);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 				else {
-					String query = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereColumn.toLowerCase() + " = '" + whereValue +"'");
-					Statement statement;
+					String quey = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = '" + wherealue +"'");
+					Statement satement;
 					try {
-						statement = c.createStatement();
-						statement.execute(query);
+						satement = c.createStatement();
+						satement.execute(quey);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 			else {
-				if (whereColumn.toLowerCase()=="actor_id") {
-					String query = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereColumn.toLowerCase() + " = " + whereValue);
-					Statement statement;
+				if (whereolumn.toLowerCase()=="actor_id") {
+					String que = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = " + wherealue);
+					Statement atement;
 					try {
-						statement = c.createStatement();
-						statement.execute(query);
+						atement = c.createStatement();
+						atement.execute(que);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 				else {
-					String query = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereColumn.toLowerCase() + " = '" + whereValue +"'");
-					Statement statement;
+					String uer = String.format("UPDATE sakila.actor SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = '" + wherealue +"'");
+					Statement ateent;
 					try {
-						statement = c.createStatement();
-						statement.execute(query);
+						ateent = c.createStatement();
+						ateent.execute(uer);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
 			}
-		 
-		 }
-		 else if (numOfValues=="1") {
+			break;
+		 case "1":
 			 System.out.println("Enter the column that the value is going to (actor_id,first_name,last_name)");
-			 String set = kb.nextLine();
+			 String set = kb.next();
 			 System.out.println("Enter the value");
-			 String value = kb.nextLine();
+			 String value = kb.next();
 			 System.out.println("Enter a row value where this is going");
-			 String whereValue = kb.nextLine();
+			 String hereValue = kb.next();
 			 System.out.println("Enter what column that value is in");
-			 String whereColumn = kb.nextLine();
+			 String hereColumn = kb.next();
 			 if (set.toLowerCase()=="actor_id") {
-					String query = String.format("UPDATE sakila.actor SET " + set.toLowerCase() + " = " + value .toLowerCase() + " WHERE " + whereColumn.toLowerCase() + " = '" + whereValue +"' ");
-					Statement statement;
+				 String qur = String.format("UPDATE sakila.actor SET " + set.toLowerCase() + " = " + value .toLowerCase() + " WHERE " + hereColumn.toLowerCase() + " = '" + hereValue +"' ");
+				 Statement tateent;
 					try {
-						statement = c.createStatement();
-						statement.execute(query);
+						tateent = c.createStatement();
+						tateent.execute(qur);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-			  }   
+			 }   
 			  else {
-				  String query = String.format("UPDATE sakila.actor SET " + set.toLowerCase() + " = '" + value .toLowerCase() + "' WHERE " + whereColumn.toLowerCase() + " = '" + whereValue +"' ");
-					Statement statement;
+				  String ery = String.format("UPDATE sakila.actor SET " + set.toLowerCase() + " = '" + value .toLowerCase() + "' WHERE " + hereColumn.toLowerCase() + " = '" + hereValue +"' ");
+				  Statement tateen;
 					try {
-						statement = c.createStatement();
-						statement.execute(query);
+						tateen = c.createStatement();
+						tateen.execute(ery);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
-
 			  }
+			 break;
+
 		 }
-	}
+	}	
 	public static void createEmployee(Connection c, String fName,String lName) {
 		System.out.println(String.format("INSERT INTO ACTOR "
 				+ "(first_name,last_name) VALUES ('%s','%s')",
