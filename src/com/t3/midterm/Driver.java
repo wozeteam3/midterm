@@ -68,6 +68,15 @@ public class Driver {
 		return input;
 	}
 	
+	static boolean isInt(String userInput)
+    {
+        for (int i = 0; i < userInput.length(); i++) {
+            if (Character.isDigit(userInput.charAt(i)) == false)
+                return false;
+        } 
+        return true;
+    }
+	
 	public static void createEmployee(Connection c, String fName,String lName) {
 		System.out.println(String.format("INSERT INTO ACTOR "
 				+ "(first_name,last_name) VALUES ('%s','%s')",
@@ -83,6 +92,20 @@ public class Driver {
 			e.printStackTrace();
 		}
 	}
+
+	
+	public static void deleteEmployee(Connection c, int toDeleteId) {
+		System.out.println(String.format("DELETE * FROM employee WHERE EMP_ID = '%d'", toDeleteId));
+		String query = String.format("DELETE * FROM employee WHERE EMP_ID = '%d'", toDeleteId);
+		Statement statement;
+		try {
+			statement = c.createStatement();
+			statement.execute(query);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	public static Employee selectEmployee(Connection c, String lName, String fName) {
 		Employee returnedEmployee = new Employee();
               String query = String.format("SELECT * FROM ACTOR WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'", fName, lName);// %s %d overload to add id
@@ -147,6 +170,7 @@ public class Driver {
 		System.out.println("What is the employee's ID number?");
 		int idNumber = kb.nextInt();
 		return idNumber;
+
 	}
 
 }
