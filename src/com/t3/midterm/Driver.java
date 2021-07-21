@@ -85,8 +85,9 @@ public class Driver {
 	}
 	public static Employee selectEmployee(Connection c, String lName, String fName) {
 		Employee returnedEmployee = new Employee();
-		System.out.println(String.format("SELECT * FROM employee WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'",fName, lName));
-		String query = String.format("SELECT * FROM ACTOR WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'", fName, lName);// %s %d overload to add id
+              String query = String.format("SELECT * FROM ACTOR WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'", fName, lName);// %s %d overload to add id
+		System.out.println(query);
+		
 		Statement statement;
 		try {
 			statement = c.createStatement();
