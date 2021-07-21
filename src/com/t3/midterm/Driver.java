@@ -68,12 +68,9 @@ public class Driver {
 		}
 	}
 	
-	public static void deleteEmployee(Connection c) {
-		//Once selectEmployee is created empID will be employeeToRemove.
-		//Employee employeeToRemove = selectEmployee();
-		int empID = 0;
-		System.out.println(String.format("DELETE * FROM ACTOR WHERE actor_id = " + empID));
-		String query = String.format("DELETE * FROM Actor WHERE actor_id = " + empID);
+	public static void deleteEmployee(Connection c, int toDeleteId) {
+		System.out.println(String.format("DELETE * FROM employee WHERE EMP_ID = '%d'", toDeleteId));
+		String query = String.format("DELETE * FROM employee WHERE EMP_ID = '%d'", toDeleteId);
 		Statement statement;
 		try {
 			statement = c.createStatement();
