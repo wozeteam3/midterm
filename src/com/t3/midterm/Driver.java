@@ -9,7 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
-
 import net.efabrika.util.DBTablePrinter;
 
 /**
@@ -18,428 +17,44 @@ import net.efabrika.util.DBTablePrinter;
  */
 public class Driver {
 	public static final Scanner kb = new Scanner(System.in);
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		String url = "jdbc:mysql://localhost:3306/sakila";
-		String user = "root";
-		String password = "";
-		System.out.println("Welcome to Oh, CRUD");
-		//TODO switch to getStringInput()
-		try {
-			System.out.printf("Enter password for %s on %s\n", user, url);
-			password = kb.nextLine();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Connection c = DriverManager.getConnection(url, user, password);
-			createEmployee(c,"a","b");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
-		kb.close();
-	}
-	
-	public static int getIntegerInput() {
-		int input = 0;
-		try {
-			input = kb.nextInt();
-			kb.nextLine();
-		} catch(Exception e) {
-			System.out.println("Please enter only a number:\n");
-		}
-		return input;
-	}
-	
-	public static String getStringInput() {
-		String input = "";
-		try {
-			input = kb.next();
-			kb.nextLine();
-		} catch(Exception e) {
-			System.out.println("Please enter valid input:\n");
-		}
-		return input;
-	}
-	
-	public static void createEmployee(Connection c, String fName,String lName) {
-		System.out.println(String.format("INSERT INTO ACTOR "
-				+ "(first_name,last_name) VALUES ('%s','%s')",
-				fName,lName));
-		String query = String.format("INSERT INTO ACTOR "
-				+ "(first_name,last_name) VALUES ('%s','%s')",
-				fName,lName);
-		Statement statement;
-		try {
-			statement = c.createStatement();
-			statement.execute(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public static void welcomeMenu() {
-		System.out.print("Welcome to Oh, CRUD");
-		System.out.print("Oh, CRUD allows you to create, read, update, and delete data in a database.\nPress enter to continue");
+		System.out.println("Welcome to Oh, CRUD");
+		System.out.println("Oh, CRUD allows you to create, read, update, and delete data in a database.\nPress enter to continue");
 		String r = kb.nextLine();
-		System.out.println("            Oh Crud!      ");
-		System.out.println("  Create Update Read Delete");
-		System.out.println("Type what you would like to do?");
-		Scanner myObj = new Scanner(System.in);
-		String choice = myObj.nextLine();
-		if (choice.toLowerCase() == "create") {
-			;
+		boolean t = true;
+		while (t = true) {
+			System.out.println("            Oh Crud!      ");
+			System.out.println("  Create Update Read Delete");
+			System.out.println("Type the word or letter of what you would like to do?");
+			System.out.println("For example if I want to delete a piece of data I would type Delete or d (casing doesn't matter) ");
+			Scanner myObj = new Scanner(System.in);
+			String enter = myObj.nextLine();
+			String choice = enter.toLowerCase();
+			if (choice.equals("create") || choice.equals("c")) {
+				;
 		
-		}
-		else if (choice.toLowerCase() == "update") {
-			;
+			}
+			else if (choice.equals("update") || choice.equals("u")) {
+				;
 		
-		}
-		else if (choice.toLowerCase() == "read") {
-			
+			}
+			else if (choice.equals("read") || choice.equals("r")) {
+				;
 		
-		}
-		else if (choice.toLowerCase() == "delete") {
-			
-			
-		}
-		else {
+			}
+			else if (choice.equals("delete") || choice.equals("d")) {
+				;
+			}
+			else if (choice.equals("quit") || choice.equals("q")) {
+				t=false;
+				break;
+			}
+			else {
 			System.out.println("Invalid input");
-	}
+			}
+		
+		}
 	}
 	
 }	
