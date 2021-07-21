@@ -116,5 +116,11 @@ public class Driver {
 		fullName[1] = kb.nextLine();
 		return fullName;
 	}
+	
+	public static int inputId() {
+		System.out.println("What is the employee's ID number?");
+		int idNumber = kb.nextInt();
+		return idNumber;
+	}
 
 }
