@@ -97,7 +97,7 @@ public class Driver {
 				returnedEmployee.firstName = rs.getString(2);
 				returnedEmployee.LastName = rs.getString(3);
 		      }
-			System.out.println("Id: " + returnedEmployee.employeeId + " First Name: " + returnedEmployee.firstName + " Last Name " + returnedEmployee.LastName);
+			System.out.printf("Id: %d First Name: %s Last Name %d",  returnedEmployee.employeeId , returnedEmployee.firstName, returnedEmployee.LastName);
 			return returnedEmployee;
 		}
 		catch(SQLException e) {
