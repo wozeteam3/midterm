@@ -85,8 +85,33 @@ public class Driver {
 	}
 	public static Employee selectEmployee(Connection c, String lName, String fName) {
 		Employee returnedEmployee = new Employee();
-		System.out.println(String.format("SELECT * FROM ACTOR WHERE first_name = '%s' AND last_name = '%s'",fName, lName));
-		String query = String.format("SELECT * FROM ACTOR WHERE first_name = '%s' AND last_name = '%s'", fName, lName);// %s %d overload to add id
+		System.out.println(String.format("SELECT * FROM employee WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'",fName, lName));
+		String query = String.format("SELECT * FROM ACTOR WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'", fName, lName);// %s %d overload to add id
+		Statement statement;
+		try {
+			statement = c.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			
+			while (rs.next()) {
+				returnedEmployee.employeeId = rs.getInt(1);
+				returnedEmployee.firstName = rs.getString(2);
+				returnedEmployee.LastName = rs.getString(3);
+		      }
+			System.out.println("Id: " + returnedEmployee.employeeId + " First Name: " + returnedEmployee.firstName + " Last Name " + returnedEmployee.LastName);
+			return returnedEmployee;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			returnedEmployee = null;
+			return returnedEmployee;
+		}
+		
+	}
+	
+	public static Employee selectEmployee(Connection c, int idNumber) {
+		Employee returnedEmployee = new Employee();
+		System.out.println(String.format("SELECT * FROM employee WHERE EMP_ID = '%d'", idNumber));
+		String query = String.format("SELECT * FROM employee WHERE EMP_ID = '%d'", idNumber);// %s %d overload to add id
 		Statement statement;
 		try {
 			statement = c.createStatement();
