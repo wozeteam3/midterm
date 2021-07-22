@@ -18,53 +18,7 @@ import net.efabrika.util.DBTablePrinter;
 public class Driver {
 	public static final Scanner kb = new Scanner(System.in);
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		String url = "jdbc:mysql://localhost:3306/sakila";
-		String user = "root";
-		String password = "password!";
-		
-		//TODO switch to getStringInput()
-		try {
-			System.out.printf("Enter password for %s on %s\n", user, url);
-			password = kb.nextLine();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		try {
-			Connection c = DriverManager.getConnection(url, user, password);
-			createEmployee(c,"a","b");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static int getIntegerInput() {
-		int input = 0;
-		try {
-			input = kb.nextInt();
-			kb.nextLine();
-		} catch(Exception e) {
-			System.out.println("Please enter only a number:\n");
-		}
-		return input;
-	}
-	
-	public static String getStringInput() {
-		String input = "";
-		try {
-			input = kb.next();
-			kb.nextLine();
-		} catch(Exception e) {
-			System.out.println("Please enter valid input:\n");
-		}
-		return input;
-	}
-	
+
 	public static void updateEmployee(Connection c) {
 		 System.out.println("How many columns will you be updating?\n");
 		 Scanner scanner = new Scanner(System.in);
@@ -79,9 +33,10 @@ public class Driver {
 			 System.out.println("Enter a row value where these new values are going.");
 			 String whereValue = kb.next();
 			 System.out.println("Enter the column name that value is in.");
-			 String whereColumn = kb.next();
-			 if (whereColumn.toLowerCase()=="EMP_ID") {	
-			 	String query = String.format("UPDATE midterm employee SET employee_id = " + employeeId + ",  first_name = '" + firstName +"', last_name = '"+ lastName +"' WHERE " + whereColumn + " = " + whereValue);
+			 String where = kb.next();
+			 String whereColumn = where.toLowerCase();
+			 if (whereColumn.equals("emp_id") || whereColumn.equals("empid") ) {	
+			 	String query = String.format("UPDATE midterm employee SET EMP_ID = " + employeeId + ",  FIRSTNAME = '" + firstName +"', LASTNAME = '"+ lastName +"' WHERE " + whereColumn + " = " + whereValue);
 			 	Statement statement;
 			 		try {
 			 			statement = c.createStatement();
@@ -90,16 +45,18 @@ public class Driver {
 			 			e.printStackTrace();
 			 		}
 			 }
-			 else	{
-				 String uery = String.format("UPDATE midterm employee SET employee_id = " + employeeId + ",  first_name = '" + firstName +"', last_name = '"+ lastName +"' WHERE " + whereColumn + " = '" + whereValue +"'");
+			 else if (whereColumn.equals("firstname") || whereColumn.equals("lastname") || whereColumn.equals("first name")|| whereColumn.equals("last name")){
+				 String uery = String.format("UPDATE midterm employee SET EMP_ID= " + employeeId + ",  FIRSTNAME = '" + firstName +"', last_name = '"+ lastName +"' WHERE " + whereColumn + " = '" + whereValue +"'");
 					Statement tatement;
 						try {
 							tatement = c.createStatement();
 							tatement.execute(uery);
 						} catch (SQLException e) {
 							e.printStackTrace();
-						}
-
+						}		
+			 }
+			 else {
+				 System.out.println("That column name is not in the table. Try again.");
 			 }
 			 scanner.close();	
 			 break;
@@ -116,9 +73,9 @@ public class Driver {
 			String wherealue = kb.next();
 			System.out.println("Enter the column name that value is in");
 			String whereolumn = kb.next();
-			if (set1.toLowerCase()=="EMP_ID") {
-				if (whereolumn.toLowerCase()=="EMP_ID") {
-					String qery = String.format("UPDATE midterm employee SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = " + wherealue);
+			if (set1.equals("EMP_ID") || set1.equals("emp_id")) {
+				if (whereolumn.equals("EMP_ID") || whereolumn.equals("emp_id")) {
+					String qery = String.format("UPDATE midterm employee SET " + set1.toUpperCase() + " = " + value1 + ", " + set2.toUpperCase() + " = '" + value2 + "' WHERE " + whereolumn.toUpperCase() + " = " + wherealue);
 					 Statement statemen;
 						try {
 							statemen = c.createStatement();
@@ -127,8 +84,8 @@ public class Driver {
 							e.printStackTrace();
 						}
 				}
-				else {
-					String uery = String.format("UPDATE midterm employee SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = '" + wherealue +"'");
+				else if (whereolumn.equals("FIRSTNAME") ||  whereolumn.equals("LASTNAME")){
+					String uery = String.format("UPDATE midterm employee SET " + set1.toUpperCase() + " = " + value1 + ", " + set2.toUpperCase() + " = '" + value2 + "' WHERE " + whereolumn.toUpperCase() + " = '" + wherealue +"'");
 					Statement tatement;
 						try {
 							tatement = c.createStatement();
@@ -137,9 +94,12 @@ public class Driver {
 							e.printStackTrace();
 						}
 				}
+				else {
+					System.out.println("One or both of the column names you have entered is not in the table. Try again.");
+				}
 		    }
-			else if (set2.toLowerCase()=="EMP_ID") {
-				if (whereolumn.toLowerCase()=="EMP_ID") {
+			else if (set2.equals("EMP_ID") || set2.equals("emp_id")) {
+				if (whereolumn.equals("EMP_ID") || whereolumn.equals("emp_id")) {
 					String qury = String.format("UPDATE midterm employee SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = " + wherealue);
 					Statement atement;
 					try {
@@ -149,7 +109,7 @@ public class Driver {
 						e.printStackTrace();
 					}
 				}
-				else {
+				else if (whereolumn.equals("FIRSTNAME") || whereolumn.equals("LASTNAME")){
 					String quey = String.format("UPDATE midterm employee SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = '" + wherealue +"'");
 					Statement satement;
 					try {
@@ -159,9 +119,12 @@ public class Driver {
 						e.printStackTrace();
 					}
 				}
+				else {
+					System.out.println("Invalid where column.");
+				}
 			}
-			else {
-				if (whereolumn.toLowerCase()=="EMP_ID") {
+			else if (set1.equals("FIRSTNAME") || set2.equals("FIRSTNAME") || set1.equals("LASTNAME") || set2.equals("LASTNAME")){
+				if (whereolumn.equals("EMP_ID") || whereolumn.equals("emp_id")) {
 					String que = String.format("UPDATE midterm employee SET " + set1.toLowerCase() + " = " + value1 + ", " + set2.toLowerCase() + " = '" + value2 + "' WHERE " + whereolumn.toLowerCase() + " = " + wherealue);
 					Statement atement;
 					try {
@@ -185,7 +148,7 @@ public class Driver {
 			scanner.close();
 			break;
 		 case "1":
-			 System.out.println("Enter the column name that the value is going to (employee_id,first_name,last_name)");
+			 System.out.println("Enter the column name that the value is going to (EMP_ID, FIRSTNAME, LASTNAME)");
 			 String set = kb.next();
 			 System.out.println("Enter the value");
 			 String value = kb.next();
@@ -193,7 +156,7 @@ public class Driver {
 			 String hereValue = kb.next();
 			 System.out.println("Enter what column that value is in");
 			 String hereColumn = kb.next();
-			 if (set.toLowerCase()=="EMP_ID") {
+			 if (set.equals("EMP_ID") || set.equals("emp_id")) {
 				 String qur = String.format("UPDATE midterm employee SET " + set.toLowerCase() + " = " + value .toLowerCase() + " WHERE " + hereColumn.toLowerCase() + " = '" + hereValue +"' ");
 				 Statement tateent;
 					try {
@@ -203,7 +166,7 @@ public class Driver {
 						e.printStackTrace();
 					}
 			 }   
-			  else {
+			  else if (set.equals("FIRSTNAME") || set.equals("LASTNAME")){
 				  String ery = String.format("UPDATE midterm employee SET " + set.toLowerCase() + " = '" + value .toLowerCase() + "' WHERE " + hereColumn.toLowerCase() + " = '" + hereValue +"' ");
 				  Statement tateen;
 					try {
@@ -218,20 +181,5 @@ public class Driver {
 
 		 }
 	}	
-	public static void createEmployee(Connection c, String fName,String lName) {
-		System.out.println(String.format("INSERT INTO ACTOR "
-				+ "(first_name,last_name) VALUES ('%s','%s')",
-				fName,lName));
-		String query = String.format("INSERT INTO ACTOR "
-				+ "(first_name,last_name) VALUES ('%s','%s')",
-				fName,lName);
-		Statement statement;
-		try {
-			statement = c.createStatement();
-			statement.execute(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
 }
