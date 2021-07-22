@@ -18,7 +18,113 @@ import net.efabrika.util.DBTablePrinter;
 public class Driver {
 	public static final Scanner kb = new Scanner(System.in);
 	
-	public static void welcomeMenu() {
+	
+	static boolean isInt(String userInput)
+    {
+        for (int i = 0; i < userInput.length(); i++) {
+            if (Character.isDigit(userInput.charAt(i)) == false)
+                return false;
+        } 
+        return true;
+    }
+	
+	public static void createEmployee(Connection c, String fName,String lName) {
+		System.out.println(String.format("INSERT INTO ACTOR "
+				+ "(first_name,last_name) VALUES ('%s','%s')",
+				fName,lName));
+		String query = String.format("INSERT INTO ACTOR "
+				+ "(first_name,last_name) VALUES ('%s','%s')",
+				fName,lName);
+		Statement statement;
+		try {
+			statement = c.createStatement();
+			statement.execute(query);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	
+	public static void deleteEmployee(Connection c, int toDeleteId) {
+		System.out.println(String.format("DELETE * FROM employee WHERE EMP_ID = '%d'", toDeleteId));
+		String query = String.format("DELETE * FROM employee WHERE EMP_ID = '%d'", toDeleteId);
+		Statement statement;
+		try {
+			statement = c.createStatement();
+			statement.execute(query);
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	public static Employee selectEmployee(Connection c, String lName, String fName) {
+		Employee returnedEmployee = new Employee();
+              String query = String.format("SELECT * FROM ACTOR WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'", fName, lName);// %s %d overload to add id
+		System.out.println(query);
+		
+		Statement statement;
+		try {
+			statement = c.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			
+			while (rs.next()) {
+				returnedEmployee.employeeId = rs.getInt(1);
+				returnedEmployee.firstName = rs.getString(2);
+				returnedEmployee.LastName = rs.getString(3);
+		      }
+			System.out.printf("Id: %d First Name: %s Last Name %d",  returnedEmployee.employeeId , returnedEmployee.firstName, returnedEmployee.LastName);
+			return returnedEmployee;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			returnedEmployee = null;
+			return returnedEmployee;
+		}
+		
+	}
+	
+	public static Employee selectEmployee(Connection c, int idNumber) {
+		Employee returnedEmployee = new Employee();
+		System.out.println(String.format("SELECT * FROM employee WHERE EMP_ID = '%d'", idNumber));
+		String query = String.format("SELECT * FROM employee WHERE EMP_ID = '%d'", idNumber);// %s %d overload to add id
+		Statement statement;
+		try {
+			statement = c.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			
+			while (rs.next()) {
+				returnedEmployee.employeeId = rs.getInt(1);
+				returnedEmployee.firstName = rs.getString(2);
+				returnedEmployee.LastName = rs.getString(3);
+		      }
+			System.out.println("Id: " + returnedEmployee.employeeId + " First Name: " + returnedEmployee.firstName + " Last Name " + returnedEmployee.LastName);
+			return returnedEmployee;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			returnedEmployee = null;
+			return returnedEmployee;
+		}
+		
+	}
+	
+	public static String[] inputName() {
+		String[] fullName = new String[2];
+		System.out.println("What is the employee's first name?");
+		fullName[0] = kb.nextLine();
+		System.out.println("What is the employee's last name?");
+		fullName[1] = kb.nextLine();
+		return fullName;
+	}
+	
+	public static int inputId() {
+		System.out.println("What is the employee's ID number?");
+		int idNumber = kb.nextInt();
+		return idNumber;
+
+	}
+    
+  public static void welcomeMenu() {
 		System.out.println("Welcome to Oh, CRUD");
 		System.out.println("Oh, CRUD allows you to create, read, update, and delete data in a database.\nPress enter to continue");
 		String r = kb.nextLine();
@@ -57,4 +163,7 @@ public class Driver {
 		}
 	}
 	
-}	
+  
+
+}
+
