@@ -56,6 +56,7 @@ public class Driver {
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
 
 	public static Employee selectEmployee(Connection c, String lName, String fName) {
 		Employee returnedEmployee = new Employee();
