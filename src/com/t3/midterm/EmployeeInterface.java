@@ -12,55 +12,59 @@ import javax.sql.DataSource;
 public class EmployeeInterface {
 	static DataSource db;
 	
+	final String CREATE    = "INSERT INTO employee (FIRSTNAME, LASTNAME) VALUES (?,?)";
+	final String READ_ID   = "SELECT * FROM employee WHERE EMP_ID = ?";
+	final String READ_NAME = "SELECT * FROM employee WHERE FIRSTNAME = ? AND LASTNAME = ?";
+	final String READ_ALL  = "SELECT * FROM employee";
+	final String UPDATE    = "UPDATE employee  SET FIRSTNAME = ?, LASTNAME = ? WHERE EMP_ID = ?";
+	final String DELETE    = "DELETE FROM employee WHERE EMP_ID = ?";
+	
 	public EmployeeInterface(DataSource db) {
 		EmployeeInterface.db = db;
 	}
 
 	public void createEmployee(String fName, String lName) {
-		String query = String.format("INSERT INTO employee (FIRSTNAME, LASTNAME) "
-								   + "VALUES ('%s','%s')",
-								   	 fName, lName);
 		try (
 				Connection c = db.getConnection();
-				PreparedStatement ps = c.prepareStatement(query);
+				PreparedStatement ps = c.prepareStatement(CREATE);
 			) {
-			ps.execute(query);
+			ps.setString(1, fName);
+			ps.setString(2, lName);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void deleteEmployee(int toDeleteId) {
-		String query = String.format("DELETE FROM employee "
-								   + "WHERE EMP_ID = %d",
-								     toDeleteId);
-		
 		try (
 				Connection c = db.getConnection();
-				PreparedStatement ps = c.prepareStatement(query);
+				PreparedStatement ps = c.prepareStatement(DELETE);
 			) {
-			ps.execute(query);
+			ps.setInt(1, toDeleteId);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public Employee selectEmployee(String fName, String lName) {
-		Employee returnedEmployee = new Employee();
-		String query = String.format("SELECT * FROM employee "
-								   + "WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'",
-									 fName, lName);
-
+		Employee returnedEmployee = null;
 		try (
 				Connection c = db.getConnection();
-				PreparedStatement ps = c.prepareStatement(query);
+				PreparedStatement ps = c.prepareStatement(READ_NAME);
 			) {
-			ResultSet rs = ps.executeQuery(query);
+			ps.setString(1, fName);
+			ps.setString(2, lName);
+			
+			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				returnedEmployee.employeeId = rs.getInt(1);
-				returnedEmployee.firstName = rs.getString(2);
-				returnedEmployee.lastName = rs.getString(3);
+				returnedEmployee = new Employee(rs.getInt(1), 
+ 												rs.getString(2), 
+ 												rs.getString(3));		
 			}
 			return returnedEmployee;
 		} catch (SQLException e) {
@@ -72,25 +76,22 @@ public class EmployeeInterface {
 	}
 
 	public Employee selectEmployee(int idNumber) {
-		Employee returnedEmployee = new Employee();
-		String query = String.format("SELECT * FROM employee "
-								   + "WHERE EMP_ID = %d",
-								   	 idNumber);
+		Employee returnedEmployee = null;
 		try (
 				Connection c = db.getConnection();
-				PreparedStatement ps = c.prepareStatement(query);
+				PreparedStatement ps = c.prepareStatement(READ_ID);
 			) {
-			ResultSet rs = ps.executeQuery(query);
+			ps.setInt(1, idNumber);
+			
+			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				returnedEmployee.employeeId = rs.getInt(1);
-				returnedEmployee.firstName = rs.getString(2);
-				returnedEmployee.lastName = rs.getString(3);
+				returnedEmployee = new Employee(rs.getInt(1), 
+						 						rs.getString(2), 
+						 						rs.getString(3));		
 			}
-			return returnedEmployee;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			returnedEmployee = null;
 		}
 		
 		return returnedEmployee;
@@ -98,18 +99,16 @@ public class EmployeeInterface {
 	
 	public List<Employee> selectAllEmployee() {
 		List<Employee> empList = new ArrayList<Employee>();
-		String query = String.format("SELECT * FROM employee");
 		try (
 				Connection c = db.getConnection();
-				PreparedStatement ps = c.prepareStatement(query);
+				PreparedStatement ps = c.prepareStatement(READ_ALL);
 			) {
-			ResultSet rs = ps.executeQuery(query);
+			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
 				empList.add(new Employee(rs.getInt(1), 
 										 rs.getString(2), 
-										 rs.getString(3))
-										);
+										 rs.getString(3)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,15 +118,15 @@ public class EmployeeInterface {
 	}
 
 	public void updateEmployee(int idNumber, String fName, String lName) {
-		String query = String.format("UPDATE employee  "
-								   + "SET FIRSTNAME = '%s', LASTNAME = '%s' "
-								   + "WHERE EMP_ID = %d", 
-								     fName, lName, idNumber);
 		try (
 				Connection c = db.getConnection();
-				PreparedStatement ps = c.prepareStatement(query);
+				PreparedStatement ps = c.prepareStatement(UPDATE);
 			) {
-			ps.execute();
+			ps.setString(1,fName);
+			ps.setString(1,lName);
+			ps.setInt(1, idNumber);
+			
+			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
