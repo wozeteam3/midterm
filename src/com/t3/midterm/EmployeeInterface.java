@@ -4,40 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
 public class EmployeeInterface {
-	static Scanner kb;
 	static DataSource db;
 	
-	public EmployeeInterface(Scanner kb, DataSource db) {
-		EmployeeInterface.kb = kb;
-		this.db = db;
-	}
-	
-	public static int getIntegerInput() {
-		int input = 0;
-		try {
-			input = kb.nextInt();
-			kb.nextLine();
-		} catch (Exception e) {
-			System.out.println("Please enter only a number:\n");
-		}
-		return input;
-	}
-
-	public static String getStringInput() {
-		String input = "";
-		try {
-			input = kb.next();
-			kb.nextLine();
-		} catch (Exception e) {
-			System.out.println("Please enter valid input:\n");
-		}
-		return input;
+	public EmployeeInterface(DataSource db) {
+		EmployeeInterface.db = db;
 	}
 
 	public static void createEmployee(String fName, String lName) {
@@ -58,7 +34,7 @@ public class EmployeeInterface {
 		String query = String.format("DELETE * FROM employee"
 								   + "WHERE EMP_ID = '%d'",
 								     toDeleteId);
-		Statement statement;
+		
 		try (
 				Connection c = db.getConnection();
 				PreparedStatement ps = c.prepareStatement(query);
@@ -75,7 +51,6 @@ public class EmployeeInterface {
 								   + "WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'",
 									 fName, lName);
 
-		Statement statement;
 		try (
 				Connection c = db.getConnection();
 				PreparedStatement ps = c.prepareStatement(query);
@@ -101,7 +76,6 @@ public class EmployeeInterface {
 		String query = String.format("SELECT * FROM employee"
 								   + "WHERE EMP_ID = '%d'",
 								   	 idNumber);
-		Statement statement;
 		try (
 				Connection c = db.getConnection();
 				PreparedStatement ps = c.prepareStatement(query);
@@ -157,29 +131,5 @@ public class EmployeeInterface {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static String[] inputName() {
-		String[] fullName = new String[2];
-		System.out.println("What is the employee's first name?");
-		fullName[0] = kb.nextLine();
-		System.out.println("What is the employee's last name?");
-		fullName[1] = kb.nextLine();
-		return fullName;
-	}
-
-	public static int inputId() {
-		System.out.println("What is the employee's ID number?");
-		int idNumber = kb.nextInt();
-		return idNumber;
-
-	}
-	
-	static boolean isInt(String userInput) {
-		for (int i = 0; i < userInput.length(); i++) {
-			if (!Character.isDigit(userInput.charAt(i)))
-				return false;
-		}
-		return true;
 	}
 }
