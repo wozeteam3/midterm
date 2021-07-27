@@ -3,7 +3,17 @@ package com.t3.midterm;
 public class Employee {
 	int employeeId;
 	String firstName;
-	String LastName;
+	String lastName;
+	
+	public Employee() {
+		
+	}
+	
+	public Employee(int id, String fName, String lName) {
+		this.employeeId = id;
+		this.firstName = fName;
+		this.lastName = lName;
+	}
 
 	public int getEmployeeId() {
 		return this.employeeId;
@@ -22,17 +32,22 @@ public class Employee {
 	}
 
 	public String getLastName() {
-		return this.LastName;
+		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
-		this.LastName = lastName;
+		this.lastName = lastName;
 	}
 	
 	@Override
 	public String toString() {
-		return "Employee [employeeId=" + this.employeeId + ", firstName=" + this.firstName + ", LastName="
-				+ this.LastName + "]";
+		try {
+			return String.format("| %-10s | %-10s | Employee ID: %d |", 
+				this.lastName.toUpperCase(), this.firstName, this.employeeId);
+		} catch(NullPointerException e) {
+			return String.format("| %-10s | %-10s | Employee ID: %d |", 
+					this.lastName, this.firstName, this.employeeId);
+		}
 	}
 }
 
