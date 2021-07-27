@@ -4,6 +4,14 @@ public class Employee {
 	int employeeId;
 	String firstName;
 	String LastName;
+	
+	public Employee() {}
+	
+	public Employee(int id, String fName, String lName) {
+		this.employeeId = id;
+		this.firstName = fName;
+		this.LastName = lName;
+	}
 
 	public int getEmployeeId() {
 		return this.employeeId;
