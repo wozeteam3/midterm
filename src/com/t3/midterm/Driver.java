@@ -11,6 +11,9 @@ public class Driver {
 	public static final String DB_URL = "jdbc:mysql://localhost:3306/midterm";
 	public static final String USER = "root";
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		DataSource db = login();
 		
@@ -21,6 +24,9 @@ public class Driver {
 		kb.close();
 	}
 	
+	/**
+	 * @param db
+	 */
 	public static void welcomeMenu(EmployeeInterface db) {
 		System.out.println("Welcome to Oh, CRUD");
 		System.out.println(
@@ -60,6 +66,9 @@ public class Driver {
 		}
 	}
 	
+	/**
+	 * @param db
+	 */
 	private static void readDb(EmployeeInterface db) {
 		String[] tempName;
 		
@@ -83,6 +92,9 @@ public class Driver {
 		}
 	}
 	
+	/**
+	 * @return
+	 */
 	private static DataSource login() {
 		DataSource db = null;
 		try {
@@ -96,6 +108,10 @@ public class Driver {
 		return db;
 	}
 	
+	/**
+	 * @param password
+	 * @return
+	 */
 	private static DataSource createDS(String password) {
 		MysqlDataSource db = new MysqlDataSource();
 		
@@ -106,6 +122,9 @@ public class Driver {
 		return db;
 	}
 
+	/**
+	 * @return
+	 */
 	public static String[] inputName() {
 		String[] fullName = new String[2];
 		System.out.println("What is the employee's first name?");
@@ -115,6 +134,9 @@ public class Driver {
 		return fullName;
 	}
 	
+	/**
+	 * @return
+	 */
 	public static int inputId() {
 		System.out.println("What is the employee's ID number?");
 		int idNumber = kb.nextInt();

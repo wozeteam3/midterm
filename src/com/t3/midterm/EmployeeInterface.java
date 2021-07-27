@@ -27,6 +27,9 @@ public class EmployeeInterface {
 	 * Initializes the data source to connect
 	 * @param db
 	 */
+	/**
+	 * @param db
+	 */
 	public EmployeeInterface(DataSource db) {
 		EmployeeInterface.db = db;
 	}
@@ -34,6 +37,10 @@ public class EmployeeInterface {
 	/**
 	 * Creates a new employee with given first and last name with an auto-
 	 * incrementing id
+	 * @param fName
+	 * @param lName
+	 */
+	/**
 	 * @param fName
 	 * @param lName
 	 */
@@ -51,6 +58,11 @@ public class EmployeeInterface {
 		}
 	}
 
+	/**
+	 * @param fName
+	 * @param lName
+	 * @return
+	 */
 	/**
 	 * @param fName
 	 * @param lName
@@ -85,6 +97,10 @@ public class EmployeeInterface {
 	 * @param idNumber
 	 * @return
 	 */
+	/**
+	 * @param idNumber
+	 * @return
+	 */
 	public Employee selectEmployee(int idNumber) {
 		Employee returnedEmployee = null;
 		try (
@@ -107,6 +123,9 @@ public class EmployeeInterface {
 		return returnedEmployee;
 	}
 	
+	/**
+	 * @return
+	 */
 	/**
 	 * @return
 	 */
@@ -135,6 +154,11 @@ public class EmployeeInterface {
 	 * @param fName
 	 * @param lName
 	 */
+	/**
+	 * @param idNumber
+	 * @param fName
+	 * @param lName
+	 */
 	public void updateEmployee(int idNumber, String fName, String lName) {
 		try (
 				Connection c = db.getConnection();
@@ -150,6 +174,9 @@ public class EmployeeInterface {
 		}
 	}
 	
+	/**
+	 * @param toDeleteId
+	 */
 	/**
 	 * @param toDeleteId
 	 */
