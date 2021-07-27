@@ -121,6 +121,28 @@ public class EmployeeInterface {
 		
 		return returnedEmployee;
 	}
+	
+	public static List<Employee> selectAllEmployee() {
+		List<Employee> empList = new ArrayList<Employee>();
+		String query = String.format("SELECT * FROM employee");
+		try (
+				Connection c = db.getConnection();
+				PreparedStatement ps = c.prepareStatement(query);
+			) {
+			ResultSet rs = ps.executeQuery(query);
+
+			while (rs.next()) {
+				empList.add(new Employee(rs.getInt(1), 
+										 rs.getString(2), 
+										 rs.getString(3))
+										);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return empList;
+	}
 
 	public static void updateEmployee(int idNumber, String fName, String lName) {
 		String query = String.format("INSERT INTO employee (FIRSTNAME, LASTNAME)"
