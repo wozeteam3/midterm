@@ -16,8 +16,8 @@ public class EmployeeInterface {
 		EmployeeInterface.db = db;
 	}
 
-	public static void createEmployee(String fName, String lName) {
-		String query = String.format("INSERT INTO ACTOR (first_name,last_name)"
+	public void createEmployee(String fName, String lName) {
+		String query = String.format("INSERT INTO employee (FIRSTNAME, LASTNAME) "
 								   + "VALUES ('%s','%s')",
 								   	 fName, lName);
 		try (
@@ -30,9 +30,9 @@ public class EmployeeInterface {
 		}
 	}
 
-	public static void deleteEmployee(int toDeleteId) {
-		String query = String.format("DELETE * FROM employee"
-								   + "WHERE EMP_ID = '%d'",
+	public void deleteEmployee(int toDeleteId) {
+		String query = String.format("DELETE FROM employee "
+								   + "WHERE EMP_ID = %d",
 								     toDeleteId);
 		
 		try (
@@ -45,9 +45,9 @@ public class EmployeeInterface {
 		}
 	}
 
-	public static Employee selectEmployee(String lName, String fName) {
+	public Employee selectEmployee(String fName, String lName) {
 		Employee returnedEmployee = new Employee();
-		String query = String.format("SELECT * FROM ACTOR"
+		String query = String.format("SELECT * FROM employee "
 								   + "WHERE FIRSTNAME = '%s' AND LASTNAME = '%s'",
 									 fName, lName);
 
@@ -60,7 +60,7 @@ public class EmployeeInterface {
 			while (rs.next()) {
 				returnedEmployee.employeeId = rs.getInt(1);
 				returnedEmployee.firstName = rs.getString(2);
-				returnedEmployee.LastName = rs.getString(3);
+				returnedEmployee.lastName = rs.getString(3);
 			}
 			return returnedEmployee;
 		} catch (SQLException e) {
@@ -71,10 +71,10 @@ public class EmployeeInterface {
 
 	}
 
-	public static Employee selectEmployee(int idNumber) {
+	public Employee selectEmployee(int idNumber) {
 		Employee returnedEmployee = new Employee();
-		String query = String.format("SELECT * FROM employee"
-								   + "WHERE EMP_ID = '%d'",
+		String query = String.format("SELECT * FROM employee "
+								   + "WHERE EMP_ID = %d",
 								   	 idNumber);
 		try (
 				Connection c = db.getConnection();
@@ -85,7 +85,7 @@ public class EmployeeInterface {
 			while (rs.next()) {
 				returnedEmployee.employeeId = rs.getInt(1);
 				returnedEmployee.firstName = rs.getString(2);
-				returnedEmployee.LastName = rs.getString(3);
+				returnedEmployee.lastName = rs.getString(3);
 			}
 			return returnedEmployee;
 		} catch (SQLException e) {
@@ -96,7 +96,7 @@ public class EmployeeInterface {
 		return returnedEmployee;
 	}
 	
-	public static List<Employee> selectAllEmployee() {
+	public List<Employee> selectAllEmployee() {
 		List<Employee> empList = new ArrayList<Employee>();
 		String query = String.format("SELECT * FROM employee");
 		try (
@@ -118,10 +118,10 @@ public class EmployeeInterface {
 		return empList;
 	}
 
-	public static void updateEmployee(int idNumber, String fName, String lName) {
-		String query = String.format("INSERT INTO employee (FIRSTNAME, LASTNAME)"
-								   + "VALUES ('%s', '%s')"
-								   + "WHERE EMP_ID = '%d'", 
+	public void updateEmployee(int idNumber, String fName, String lName) {
+		String query = String.format("UPDATE employee  "
+								   + "SET FIRSTNAME = '%s', LASTNAME = '%s' "
+								   + "WHERE EMP_ID = %d", 
 								     fName, lName, idNumber);
 		try (
 				Connection c = db.getConnection();
