@@ -9,6 +9,10 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+/**
+ * The main interface between the driver/command line and the database. Must be
+ * instantiated with a {@link javax.sql.DataSource DataSource}
+ */
 public class EmployeeInterface {
 	static DataSource db;
 	
@@ -19,10 +23,20 @@ public class EmployeeInterface {
 	final String UPDATE    = "UPDATE employee  SET FIRSTNAME = ?, LASTNAME = ? WHERE EMP_ID = ?";
 	final String DELETE    = "DELETE FROM employee WHERE EMP_ID = ?";
 	
+	/**
+	 * Initialize the data source attribute that the program will interface with.
+	 * @param db The DataSource to use
+	 */
 	public EmployeeInterface(DataSource db) {
 		EmployeeInterface.db = db;
 	}
 
+	/**
+	 * Creates a new employee with given first and last name with an auto-
+	 * incrementing id
+	 * @param fName New first name
+	 * @param lName New last name
+	 */
 	public void createEmployee(String fName, String lName) {
 		try (
 				Connection c = db.getConnection();
@@ -37,19 +51,17 @@ public class EmployeeInterface {
 		}
 	}
 
-	public void deleteEmployee(int toDeleteId) {
-		try (
-				Connection c = db.getConnection();
-				PreparedStatement ps = c.prepareStatement(DELETE);
-			) {
-			ps.setInt(1, toDeleteId);
-			
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
+	/**
+	 * Return employee object matching both first and last name. This does not 
+	 * account for overlap of names so in the case of two rows having matching
+	 * first and last names, it will return the one with the largest ID. Also
+	 * note that, since the SQL {@code WHERE} keyword is used, it is only
+	 * case sensitive if specified in the schema.
+	 * @param fName First name of target
+	 * @param lName Last name of target
+	 * @return An {@link com.t3.midterm.Employee Employee} object matching the 
+	 * name passed
+	 */
 	public Employee selectEmployee(String fName, String lName) {
 		Employee returnedEmployee = null;
 		try (
@@ -75,6 +87,12 @@ public class EmployeeInterface {
 
 	}
 
+	/**
+	 * Return employee object corresponding to the idNumber parameter.
+	 * @param idNumber ID of target employee
+	 * @return An {@link com.t3.midterm.Employee Employee} object matching the 
+	 * ID passed
+	 */
 	public Employee selectEmployee(int idNumber) {
 		Employee returnedEmployee = null;
 		try (
@@ -97,6 +115,10 @@ public class EmployeeInterface {
 		return returnedEmployee;
 	}
 	
+	/**
+	 * Return a {@code List<Employee>} containing all employees in the DB.
+	 * @return A {@code List<Employee>} containing all employees in the DB.
+	 */
 	public List<Employee> selectAllEmployee() {
 		List<Employee> empList = new ArrayList<Employee>();
 		try (
@@ -117,6 +139,13 @@ public class EmployeeInterface {
 		return empList;
 	}
 
+	/**
+	 * Given a first name and last name, update the names columns in the row
+	 * corresponding to idNumber.
+	 * @param idNumber ID of target employee
+	 * @param fName New first name
+	 * @param lName New last name
+	 */
 	public void updateEmployee(int idNumber, String fName, String lName) {
 		try (
 				Connection c = db.getConnection();
@@ -125,6 +154,23 @@ public class EmployeeInterface {
 			ps.setString(1,fName);
 			ps.setString(1,lName);
 			ps.setInt(1, idNumber);
+			
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Delete the row in the table corresponding to idNumber.
+	 * @param toDeleteId ID of target employee
+	 */
+	public void deleteEmployee(int toDeleteId) {
+		try (
+				Connection c = db.getConnection();
+				PreparedStatement ps = c.prepareStatement(DELETE);
+			) {
+			ps.setInt(1, toDeleteId);
 			
 			ps.executeUpdate();
 		} catch (SQLException e) {
