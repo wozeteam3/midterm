@@ -1,18 +1,31 @@
 package com.t3.midterm;
 
-import java.util.List;
 import java.util.Scanner;
 import javax.sql.DataSource;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
+/**
+ * Contains main method and handles user interface
+ */
 public class Driver {
+	/**
+	 * Scanner to be used throughout build for keyboard input
+	 */
 	public static final Scanner kb = new Scanner(System.in);
 	
+	/**
+	 * URL of MySQL DB
+	 */
 	public static final String DB_URL = "jdbc:mysql://localhost:3306/midterm";
+	
+	/**
+	 * Username for DB
+	 */
 	public static final String USER = "root";
 
 	/**
-	 * @param args
+	 * Main method that performs login and starts menu.
+	 * @param args <i>Unused</i>
 	 */
 	public static void main(String[] args) {
 		DataSource db = login();
@@ -25,7 +38,9 @@ public class Driver {
 	}
 	
 	/**
-	 * @param db
+	 * Prints an interface with options for user and repeats after each operation
+	 * until the user quits  
+	 * @param db The EmployeeInterface which will perform operations
 	 */
 	public static void welcomeMenu(EmployeeInterface db) {
 		System.out.println("Welcome to Oh, CRUD");
@@ -67,7 +82,9 @@ public class Driver {
 	}
 	
 	/**
-	 * @param db
+	 * Sub menu for reading/selecting the DB. Allows for selecting by name, ID, or
+	 * selecting all.
+	 * @param db The EmployeeInterface which will perform operations
 	 */
 	private static void readDb(EmployeeInterface db) {
 		String[] tempName;
@@ -93,7 +110,9 @@ public class Driver {
 	}
 	
 	/**
-	 * @return
+	 * Get user-provided credentials and uses them to call 
+	 * {@link #createDS(String) createDS}
+	 * @return The DataSource to be used by the interface
 	 */
 	private static DataSource login() {
 		DataSource db = null;
@@ -109,8 +128,10 @@ public class Driver {
 	}
 	
 	/**
-	 * @param password
-	 * @return
+	 * Create a new DataSource and sets metadata using password parameter and 
+	 * class constants for user and URL.
+	 * @param password Password for the SQL user instance
+	 * @return The new DataSource with metadata set
 	 */
 	private static DataSource createDS(String password) {
 		MysqlDataSource db = new MysqlDataSource();
@@ -123,7 +144,8 @@ public class Driver {
 	}
 
 	/**
-	 * @return
+	 * Helper method to get name input from the user
+	 * @return String[2] where element 0 is first name and element 1 is the last
 	 */
 	public static String[] inputName() {
 		String[] fullName = new String[2];
@@ -135,7 +157,8 @@ public class Driver {
 	}
 	
 	/**
-	 * @return
+	 * Helper method to get an integer representing an ID
+	 * @return An integer representing an employee ID
 	 */
 	public static int inputId() {
 		System.out.println("What is the employee's ID number?");
