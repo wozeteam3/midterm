@@ -152,8 +152,8 @@ public class EmployeeInterface {
 				PreparedStatement ps = c.prepareStatement(UPDATE);
 			) {
 			ps.setString(1,fName);
-			ps.setString(1,lName);
-			ps.setInt(1, idNumber);
+			ps.setString(2,lName);
+			ps.setInt(3, idNumber);
 			
 			ps.executeUpdate();
 		} catch (SQLException e) {
