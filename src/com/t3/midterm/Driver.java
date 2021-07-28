@@ -43,35 +43,42 @@ public class Driver {
 	 * @param db The EmployeeInterface which will perform operations
 	 */
 	public static void welcomeMenu(EmployeeInterface db) {
+		System.out.println("--------------------------------");
 		System.out.println("Welcome to Oh, CRUD");
+		System.out.println("--------------------------------");
 		System.out.println(
-				"Oh, CRUD allows you to create, read, update, and delete data in a database.\nPress enter to continue");
-		kb.nextLine();
+				"Oh, CRUD allows you to create, read, update, and delete data in a database.\n");
+		System.out.println("Controls:\n'c'-create 'r'-read 'u'-update 'd'-delete 'q'-quit");
 		
 		String choice;
 		String[] tempName;
 		int tempId;
 		boolean quit = false;
 		while(!quit) {
-			
-			System.out.println("\n---\nType the word or letter of what you would like to do?");
-			System.out.println(
-					"For example to delete a piece of data, type Delete or d (casing doesn't matter) ");
+			System.out.println("\n--------------------------------");
+			System.out.println("Type what you would like to do and press ENTER");
 			choice = kb.nextLine();
 			
 			if (choice.equals("create") || choice.equals("c")) {
+				System.out.println("What is the new name?");
 				tempName = inputName();
 				db.createEmployee(tempName[0], tempName[1]);
 
 			} else if (choice.equals("update") || choice.equals("u")) {
-				tempName = inputName();
+				System.out.println("Which ID are you updating?");
 				tempId = inputId();
+				
+				System.out.println("What is the updated name?");
+				tempName = inputName();
+				
 				db.updateEmployee(tempId, tempName[0], tempName[1]);
 
 			} else if (choice.equals("read") || choice.equals("r")) {
 				readDb(db);
 			} else if (choice.equals("delete") || choice.equals("d")) {
 				db.deleteEmployee(inputId());
+				
+				System.out.println("Employee Deleted");
 			} else if (choice.equals("quit") || choice.equals("q")) {
 				quit = true;
 			} else {
