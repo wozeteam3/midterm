@@ -9,7 +9,8 @@ import com.mysql.cj.jdbc.MysqlDataSource;
  */
 public class Driver {
 	/**
-	 * Scanner to be used throughout build for keyboard input
+	 * Scanner to be used throughout build for keyboard input so that it can be
+	 * closed only at the end as Scanner.close() affects all scanners.
 	 */
 	public static final Scanner kb = new Scanner(System.in);
 	
