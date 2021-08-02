@@ -27,4 +27,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: javadoc com.t3.midterm.* -d ./docs -encoding UTF-8
+        run: javadoc com.t3.midterm -d ./docs -encoding UTF-8
