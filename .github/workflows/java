@@ -1,8 +1,0 @@
-    BASEDIR=$(CURDIR)
-    OUTPUTDIR=$(BASEDIR)/doctest # you may change docs with custom folder name
-    PACKAGE=com.t3.midterm # write the package name here
-
-    html:
-        javadoc "$(PACKAGE)" -d "$(OUTPUTDIR)" -encoding UTF-8
-
-    .PHONY: html
