@@ -24,4 +24,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build with Ant
-        run: ant -noinput -buildfile build.xml
+        run: ant -noinput -buildfile javadoc.xml
