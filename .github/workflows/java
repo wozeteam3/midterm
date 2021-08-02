@@ -1,5 +1,5 @@
     BASEDIR=$(CURDIR)
-    OUTPUTDIR=$(BASEDIR)/docs # you may change docs with custom folder name
+    OUTPUTDIR=$(BASEDIR)/doctest # you may change docs with custom folder name
     PACKAGE=com.t3.midterm # write the package name here
 
     html:
