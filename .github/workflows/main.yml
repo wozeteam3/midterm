@@ -24,4 +24,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build with Ant
-        run: ant -noinput -buildfile .github/workflows/javadoc.xml
+        run: ant .github/workflows/javadoc.xml
