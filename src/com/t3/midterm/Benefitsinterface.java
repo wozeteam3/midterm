@@ -19,8 +19,8 @@ public class Benefitsinterface {
 			BenefitInterface.db = db;
 	}
 	
-		public void createBenefit(String benefitName, int benefitId) {
-			String query= "INSERT INTO benefits (BENEFIT,BENFITID)values( '" + benefitName +"' "+ benefitId +")";
+		public void createBenefit(int benefitId, int dental, int life, int health, double kAmount) {
+			String query= "INSERT INTO benefits (benefit_id, dental, life, health, 401k_match_amount )values( " + benefitId +" "+ dental +" "+ life +" "+ health +" "+ kAmount +")";
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
 				ps.setString(1, benefitName);
@@ -53,7 +53,7 @@ public class Benefitsinterface {
 		}
 		
 		public void readBenefitId(int benefitId) {
-			String query= "SELECT * from benefits WHERE id="+ benefitId;
+			String query= "SELECT * from benefits WHERE benefit_id="+ benefitId;
 			Employee returnedBenefits = null;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
@@ -72,12 +72,12 @@ public class Benefitsinterface {
 			
 		}
 		
-		public void readBenefitName(String benefitName) {
-			String query= "SELECT * from benefits WHERE benefitName="+benefitName;
+		public void readDentalBenefit(int dental) {
+			String query= "SELECT * from benefits WHERE dental="+dental;
 			benefits returnedBenefits = null;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ps.setString(1, benefitName);
+				ps.setInt(1, dental);
 				
 				ResultSet rs = ps.executeQuery();
 
@@ -94,13 +94,79 @@ public class Benefitsinterface {
 			}
 		}	
 		
-		public void updateBenefit( String benefitName, int benefitId, int empId) {
-			String query= "UPDATE benefits set benefitId="+ benefitId + "Where benefitName="+ benefitName +"and EMP_ID="+ empId;
+		public void readLifeBenefit(int life) {
+			String query= "SELECT * from benefits WHERE life= "+life;
+			benefits returnedBenefits = null;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ps.setString(1, benefitName);
-				ps.setInt(2, benefitId);
-				ps.setInt(3, empId);
+				ps.setInt(1, life);
+				
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					returnedBenefits = new Employee(rs.getInt(1), 
+	 												rs.getString(2), 
+	 												rs.getString(3));		
+				}
+				return returnedBenefits;
+				ps.executeUpdate();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		
+		public void readHealthBenefit(int health) {
+			String query= "SELECT * from benefits WHERE health= "+health;
+			benefits returnedBenefits = null;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ps.setInt(1, health);
+				
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					returnedBenefits = new Employee(rs.getInt(1), 
+	 												rs.getString(2), 
+	 												rs.getString(3));		
+				}
+				return returnedBenefits;
+				ps.executeUpdate();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		public void read401k(int kAmount) {
+			String query= "SELECT * from benefits WHERE 401k_match_amount= "+kAmount;
+			benefits returnedBenefits = null;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ps.setInt(1, kAmount);
+				
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					returnedBenefits = new Employee(rs.getInt(1), 
+	 												rs.getString(2), 
+	 												rs.getString(3));		
+				}
+				return returnedBenefits;
+				ps.executeUpdate();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+		public void updateBenefit(int benefitId, int dental, int life, int health, int kAmount ) {
+			String query= "UPDATE benefits set  dental= "+ dental +" life="+ life +" health= "+ health +" 401k_match_amount"+ kAmount + "Where benefit_id= "+ benefitId;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ps.setInt(1, benefitId);
+				ps.setInt(2, dental);
+				ps.setInt(3, life);
+				ps.setInt(4,health);
+				ps.setInt(5, kAmount);
 				
 				ps.executeUpdate();
 			}
@@ -109,11 +175,11 @@ public class Benefitsinterface {
 			}
 		}
 		
-		public void deleteBenefit(int empId) {
-			String query= "DELETE FROM benefits WHERE EMP_ID="+ empId;
+		public void deleteBenefit(int benefitId) {
+			String query= "DELETE FROM benefits WHERE benefit_id="+ benefitId;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ps.setInt(1, empId);
+				ps.setInt(1, benefitId);
 				
 				ps.executeUpdate();
 			}
@@ -121,5 +187,5 @@ public class Benefitsinterface {
 				e.printStackTrace();
 			}
 		}
-		
+	}
 	}
