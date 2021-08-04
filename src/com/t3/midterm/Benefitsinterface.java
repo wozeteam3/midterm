@@ -17,71 +17,102 @@ public class Benefitsinterface {
 		
 	public void BenefitsInterface(DataSource db) {
 			BenefitsInterface.db = db;
-		}
+	}
 	
 		public void createBenefit(String benefitName, int benefitId) {
-			try (Connection c = db.getConnection()){
-				String query= "INSERT INTO benefits (BENEFIT,BENFITID)values( '" + benefitName +"' "+ benefitId +")";
-				Statement statement;
-				statement = c.createStatement();
-    			statement.execute(query);		
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			String query= "INSERT INTO benefits (BENEFIT,BENFITID)values( '" + benefitName +"' "+ benefitId +")";
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					Project m = new Project();
+					m.setId(rs.getLong("id"));
+					m.setName(rs.getString("name"));
+					array.add(m);
 		}
 	}
 		
 		public void readAllBenefits() {
-			try (Connection c = db.getConnection()){
-				String query= "SELECT * from benefits ";
-				Statement statement;
-				statement = c.createStatement();
-    			statement.execute(query);			
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			String query= "SELECT * from benefits ";
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					Project m = new Project();
+					m.setId(rs.getLong("id"));
+					m.setName(rs.getString("name"));
+					array.add(m);
 		}
 		
 		public void readBenefitId(int benefitId) {
-			try (Connection c = db.getConnection();){
-				String query= "SELECT * from benefits WHERE benefitId="+benefitId;
-				Statement statement;
-				statement = c.createStatement();
-    			statement.execute(query);		
+			String query= "SELECT * from benefits WHERE id="+ benefitId;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					Project m = new Project();
+					m.setId(rs.getLong("id"));
+					m.setName(rs.getString("name"));
+					array.add(m);
+				}
+				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		
 		public void readBenefitName(String benefitName) {
-			try (Connection c = db.getConnection();){
-				String query= "SELECT * from benefits WHERE benefitName="+benefitName;
-				Statement statement;
-				statement = c.createStatement();
-    			statement.execute(query);		
-			} catch (SQLException e) {
+			String query= "SELECT * from benefits WHERE benefitName="+benefitName;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					Project m = new Project();
+					m.setId(rs.getLong("id"));
+					m.setName(rs.getString("name"));
+					array.add(m);
+				
+				ps.executeUpdate();
+				}
+			}
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}
+		}	
 		
 		public void updateBenefit(int empId, String benefitName, int benefitId) {
-			try (Connection c = db.getConnection();){
-				String query= "UPDATE benefits set benefitId="+ benefitId + "Where benefitName="+ benefitName +"and EMP_ID="+ empId;
-				Statement statement;
-				statement = c.createStatement();
-    			statement.execute(query);		
-			} catch (SQLException e) {
+			String query= "UPDATE benefits set benefitId="+ benefitId + "Where benefitName="+ benefitName +"and EMP_ID="+ empId;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					Project m = new Project();
+					m.setId(rs.getLong("id"));
+					m.setName(rs.getString("name"));
+					array.add(m);
+				
+				ps.executeUpdate();
+				}
+			}
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		
 		public void deleteBenefit(int empId) {
-			try (Connection c = db.getConnection();){
-				String query= "DELETE FROM benefits WHERE EMP_ID="+ empId;
-				Statement statement;
-				statement = c.createStatement();
-    			statement.execute(query);		
-			} catch (SQLException e) {
+			String query= "DELETE FROM benefits WHERE EMP_ID="+ empId;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ResultSet rs = statement.executeQuery();
+				while (rs.next()) {
+					
+					ps.setInt(rs.getLong("id"));
+					ps.setString(rs.getString("name"));
+				
+					ps.executeUpdate();
+				}
+			}
+			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
