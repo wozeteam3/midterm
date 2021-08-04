@@ -16,83 +16,93 @@ public class Benefitsinterface {
 		static DataSource db;
 		
 	public void BenefitsInterface(DataSource db) {
-			BenefitsInterface.db = db;
+			BenefitInterface.db = db;
 	}
 	
 		public void createBenefit(String benefitName, int benefitId) {
 			String query= "INSERT INTO benefits (BENEFIT,BENFITID)values( '" + benefitName +"' "+ benefitId +")";
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ResultSet rs = statement.executeQuery();
-				while (rs.next()) {
-					Project m = new Project();
-					m.setId(rs.getLong("id"));
-					m.setName(rs.getString("name"));
-					array.add(m);
-		}
+				ps.setString(1, benefitName);
+				ps.setInt(2, benefitId);
+				
+				ps.executeUpdate();
+		    }
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
 	}
 		
 		public void readAllBenefits() {
 			String query= "SELECT * from benefits ";
+			List<Benefits> benList = new ArrayList<Benefits>();
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ResultSet rs = statement.executeQuery();
+				ResultSet rs = ps.executeQuery();
+
 				while (rs.next()) {
-					Project m = new Project();
-					m.setId(rs.getLong("id"));
-					m.setName(rs.getString("name"));
-					array.add(m);
+					benList.add(new Employee(rs.getInt(1), 
+											 rs.getString(2), 
+											 rs.getString(3)));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return benList;
 		}
 		
 		public void readBenefitId(int benefitId) {
 			String query= "SELECT * from benefits WHERE id="+ benefitId;
+			Employee returnedBenefits = null;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ResultSet rs = statement.executeQuery();
+				ps.setInt(1, benefitId);
+				
+				ResultSet rs = ps.executeQuery();
+
 				while (rs.next()) {
-					Project m = new Project();
-					m.setId(rs.getLong("id"));
-					m.setName(rs.getString("name"));
-					array.add(m);
+					returnedBenefits = new Benefits(rs.getInt(1), 
+							 						rs.getString(2), 
+							 						rs.getString(3));		
 				}
-				ps.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			
 		}
 		
 		public void readBenefitName(String benefitName) {
 			String query= "SELECT * from benefits WHERE benefitName="+benefitName;
+			benefits returnedBenefits = null;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ResultSet rs = statement.executeQuery();
-				while (rs.next()) {
-					Project m = new Project();
-					m.setId(rs.getLong("id"));
-					m.setName(rs.getString("name"));
-					array.add(m);
+				ps.setString(1, benefitName);
 				
-				ps.executeUpdate();
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					returnedBenefits = new Employee(rs.getInt(1), 
+	 												rs.getString(2), 
+	 												rs.getString(3));		
 				}
+				return returnedBenefits;
+				ps.executeUpdate();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}	
 		
-		public void updateBenefit(int empId, String benefitName, int benefitId) {
+		public void updateBenefit( String benefitName, int benefitId, int empId) {
 			String query= "UPDATE benefits set benefitId="+ benefitId + "Where benefitName="+ benefitName +"and EMP_ID="+ empId;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ResultSet rs = statement.executeQuery();
-				while (rs.next()) {
-					Project m = new Project();
-					m.setId(rs.getLong("id"));
-					m.setName(rs.getString("name"));
-					array.add(m);
+				ps.setString(1, benefitName);
+				ps.setInt(2, benefitId);
+				ps.setInt(3, empId);
 				
 				ps.executeUpdate();
-				}
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -103,14 +113,9 @@ public class Benefitsinterface {
 			String query= "DELETE FROM benefits WHERE EMP_ID="+ empId;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
-				ResultSet rs = statement.executeQuery();
-				while (rs.next()) {
-					
-					ps.setInt(rs.getLong("id"));
-					ps.setString(rs.getString("name"));
+				ps.setInt(1, empId);
 				
-					ps.executeUpdate();
-				}
+				ps.executeUpdate();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
