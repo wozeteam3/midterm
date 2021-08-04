@@ -158,7 +158,7 @@ public class Benefitsinterface {
 				e.printStackTrace();
 			}
 		}	
-		public void updateBenefit(int benefitId, int dental, int life, int health, int kAmount ) {
+		public void updateAllBenefit(int benefitId, int dental, int life, int health, int kAmount ) {
 			String query= "UPDATE benefits set  dental= "+ dental +" life="+ life +" health= "+ health +" 401k_match_amount"+ kAmount + "Where benefit_id= "+ benefitId;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
@@ -171,6 +171,20 @@ public class Benefitsinterface {
 				ps.executeUpdate();
 			}
 			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		public void updateOneBenefit(String benefitName, int benefitIdPlan, int benefitId) {
+			String query= "UPDATE benefits set "+ benefitName.toLowerCase() + "= "+ benefitIdPlan +"WHERE benfit_id= "+ benefitId;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ps.setString(1, benefitName);
+				ps.setInt(2, benefitIdPlan);
+				ps.setInt(3, benefitId);
+				
+				ps.executeUpdate();
+			}
+			catch(SQLException e) {
 				e.printStackTrace();
 			}
 		}
