@@ -43,7 +43,41 @@ public class Benefitsinterface {
 				e.printStackTrace();
 			}
 	}
-		
+		public void readAllTableByBenefitId(int benefitId) {
+			String query= "SELECT * from benefits FULL OUTER JOIN employee ON benefits.benefit_id=employee.benefits_id; FULL OUTER JOIN WHERE benefit_id="+ benefitId;
+			Employee returnedBenefits = null;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ps.setInt(1, benefitId);
+				
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					returnedBenefits = new Benefits(rs.getInt(1), 
+							 						rs.getString(2), 
+							 						rs.getString(3));
+		/**
+		 * A join that allows the user to see the benefits and the employee tables. 
+		 * @param benefitId
+		 */
+		public void readAllTableByBenefitId(int benefitId) {
+			String query= "SELECT * from benefits FULL OUTER JOIN employee ON benefits.benefit_id=employee.benefits_id; WHERE benefit_id="+ benefitId;
+			Employee returnedBenefits = null;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(query);) {
+				ps.setInt(1, benefitId);
+				
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					returnedBenefits = new Benefits(rs.getInt(1), 
+							 						rs.getString(2), 
+							 						rs.getString(3));		
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
 		
 		
 		
@@ -58,7 +92,7 @@ public class Benefitsinterface {
 				ResultSet rs = ps.executeQuery();
 
 				while (rs.next()) {
-					benList.add(new Employee(rs.getInt(1), 
+					benList.add(new Benefits(rs.getInt(1), 
 											 rs.getString(2), 
 											 rs.getString(3)));
 				}
