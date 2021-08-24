@@ -15,6 +15,16 @@ public class Benefitsinterface {
 	public class BenefitInterface {
 		static DataSource db;
 		
+		final String CREATE    = "INSERT INTO benefits (benefit_id, dental, life, health, 401k_match_amount) VALUES (?,?,?,?,?)";
+		final String READ_ID   = "SELECT * FROM benefits WHERE benefit_id = ?";
+		final String READ_DENTAL = "SELECT * FROM benefits WHERE dental = ?";
+		final String READ_LIFE = "SELECT * FROM benefits WHERE life = ?";
+		final String READ_HEALTH="SELECT * FROM benefits WHERE health = ?";
+		final String READ_KAMOUNT = "SELECT * FROM benefits WHERE 401k_match_amount = ?";
+		final String READ_ALL  = "SELECT * FROM benefits";
+		final String UPDATE    = "UPDATE benefits  SET dental = ?, life = ?, health = ?, 401k_match_amount = ? WHERE benefit_id = ?";
+		final String DELETE    = "DELETE FROM benefits WHERE benefit_id = ?";
+		
 	public void BenefitsInterface(DataSource db) {
 			BenefitInterface.db = db;
 	}
@@ -28,9 +38,8 @@ public class Benefitsinterface {
 	 * 
 	 */
 		public void createBenefit(int benefitId, int dental, int life, int health, double kAmount) {
-			String query= "INSERT INTO benefits (benefit_id, dental, life, health, 401k_match_amount )values( " + benefitId +" "+ dental +" "+ life +" "+ health +" "+ kAmount +")";
 			try (Connection c = db.getConnection();
-					PreparedStatement ps = c.prepareStatement(query);) {
+					PreparedStatement ps = c.prepareStatement(CREATE);) {
 				ps.setInt(1, benefitId);
 				ps.setInt(2, dental);
 				ps.setInt(3, life);
@@ -44,47 +53,110 @@ public class Benefitsinterface {
 			}
 	}
 		public void readAllTableByBenefitId(int benefitId) {
-			String query= "SELECT * from benefits FULL OUTER JOIN employee ON benefits.benefit_id=employee.benefits_id; FULL OUTER JOIN WHERE benefit_id="+ benefitId;
-			Employee returnedBenefits = null;
+			Benefits returnedBenefits = null;
 			try (Connection c = db.getConnection();
-					PreparedStatement ps = c.prepareStatement(query);) {
+					PreparedStatement ps = c.prepareStatement(READ_ID);) {
 				ps.setInt(1, benefitId);
 				
 				ResultSet rs = ps.executeQuery();
 
 				while (rs.next()) {
 					returnedBenefits = new Benefits(rs.getInt(1), 
-							 						rs.getString(2), 
-							 						rs.getString(3));
-		/**
-		 * A join that allows the user to see the benefits and the employee tables. 
-		 * @param benefitId
-		 */
-		public void readAllTableByBenefitId(int benefitId) {
-			String query= "SELECT * from benefits FULL OUTER JOIN employee ON benefits.benefit_id=employee.benefits_id; WHERE benefit_id="+ benefitId;
-			Employee returnedBenefits = null;
-			try (Connection c = db.getConnection();
-					PreparedStatement ps = c.prepareStatement(query);) {
-				ps.setInt(1, benefitId);
-				
-				ResultSet rs = ps.executeQuery();
-
-				while (rs.next()) {
-					returnedBenefits = new Benefits(rs.getInt(1), 
-							 						rs.getString(2), 
-							 						rs.getString(3));		
+							 						rs.getInt(2), 
+							 						rs.getInt(3),
+													rs.getInt(4),
+													rs.getInt(5));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}	
+		/**
+		 * A join that allows the user to see the benefits and the employee tables. 
+		 * @param benefitId
+		 */
+		public Benefits readDental(int dental) {
+			Benefits returnedBenefits = null;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(READ_LIFE);) {
+				ps.setInt(1, dental);
+				
+				
+				ResultSet rs = ps.executeQuery(READ_DENTAL);
+
+				while (rs.next()) {
+					returnedBenefits = new Benefits(rs.getInt(1), 
+	  												rs.getInt(2), 
+	  												rs.getInt(3),
+	  												rs.getInt(4),
+	  												rs.getInt(5));			
+				}
+				
+				
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return returnedBenefits;
+		}	
 			
 		
+		public Benefits readHealth(int health) {
+			Benefits returnedBenefits = null;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(READ_LIFE);) {
+				ps.setInt(1, health);
+				
+				
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					returnedBenefits = new Benefits(rs.getInt(1), 
+	  												rs.getInt(2), 
+	  												rs.getInt(3),
+	  												rs.getInt(4),
+	  												rs.getInt(5));			
+				}
+				
+				
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return returnedBenefits;
+		}	
 		
+		
+		public Benefits readkAmount(int kAmount) {
+			Benefits returnedBenefits = null;
+			try (Connection c = db.getConnection();
+					PreparedStatement ps = c.prepareStatement(READ_KAMOUNT);) {
+				ps.setInt(1, kAmount);
+				
+				
+				ResultSet rs = ps.executeQuery();
+
+				while (rs.next()) {
+					returnedBenefits = new Benefits(rs.getInt(1), 
+	  												rs.getInt(2), 
+	  												rs.getInt(3),
+	  												rs.getInt(4),
+	  												rs.getInt(5));			
+				}
+				
+				
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			return returnedBenefits;
+		}	
 		
 		/**
 		 * Allows the user to see everything in the benefits table
+		 * @return 
 		 */
-		public void readAllBenefits() {
+		public List<Benefits> readAllBenefits() {
 			String query= "SELECT * from benefits ";
 			List<Benefits> benList = new ArrayList<Benefits>();
 			try (Connection c = db.getConnection();
@@ -93,8 +165,10 @@ public class Benefitsinterface {
 
 				while (rs.next()) {
 					benList.add(new Benefits(rs.getInt(1), 
-											 rs.getString(2), 
-											 rs.getString(3)));
+											  rs.getInt(2), 
+											  rs.getInt(3),
+											  rs.getInt(4),
+											  rs.getInt(5)));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -108,7 +182,7 @@ public class Benefitsinterface {
 		 */
 		public void readBenefitId(int benefitId) {
 			String query= "SELECT * from benefits WHERE benefit_id="+ benefitId;
-			Employee returnedBenefits = null;
+			Benefits returnedBenefits = null;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
 				ps.setInt(1, benefitId);
@@ -117,8 +191,10 @@ public class Benefitsinterface {
 
 				while (rs.next()) {
 					returnedBenefits = new Benefits(rs.getInt(1), 
-							 						rs.getString(2), 
-							 						rs.getString(3));		
+							  						rs.getInt(2), 
+							  						rs.getInt(3),
+							  						rs.getInt(4),
+							  						rs.getInt(5));		
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -129,38 +205,42 @@ public class Benefitsinterface {
 		/**
 		 * This allows the user to see benefit id and other plans that has a chosen plan id inside a chosen benefit 
 		 * @param benefitName & planId
+		 * @return 
 		 */
-		public void readDentalBenefit(String benefitName, int planId) {
-			String query= "SELECT * from benefits WHERE "+ benefitName.toLowerCase() +"="+planId;
-			benefits returnedBenefits = null;
+		public Benefits readLife(int life) {
+			Benefits returnedBenefits = null;
 			try (Connection c = db.getConnection();
-					PreparedStatement ps = c.prepareStatement(query);) {
-				ps.setString(1, benefitName);
-				ps.setInt(2, planId);
+					PreparedStatement ps = c.prepareStatement(READ_LIFE);) {
+				ps.setInt(1, life);
+				
 				
 				ResultSet rs = ps.executeQuery();
 
 				while (rs.next()) {
-					returnedBenefits = new Employee(rs.getInt(1), 
-	 												rs.getString(2), 
-	 												rs.getString(3));		
+					returnedBenefits = new Benefits(rs.getInt(1), 
+	  												rs.getInt(2), 
+	  												rs.getInt(3),
+	  												rs.getInt(4),
+	  												rs.getInt(5));			
 				}
-				return returnedBenefits;
-				ps.executeUpdate();
+				
+				
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
+			return returnedBenefits;
 		}	
 		
 		
 		/**
 		 * This allows the user to see benefit id and plans that has a certain 401k plan 
 		 * @param kAmount
+		 * @return 
 		 */
-		public void read401k(double kAmount) {
+		public Benefits read401k(int kAmount) {
 			String query= "SELECT * from benefits WHERE 401k_match_amount= "+kAmount;
-			benefits returnedBenefits = null;
+			Benefits returnedBenefits = null;
 			try (Connection c = db.getConnection();
 					PreparedStatement ps = c.prepareStatement(query);) {
 				ps.setDouble(1, kAmount);
@@ -168,16 +248,19 @@ public class Benefitsinterface {
 				ResultSet rs = ps.executeQuery();
 
 				while (rs.next()) {
-					returnedBenefits = new Employee(rs.getInt(1), 
-	 												rs.getString(2), 
-	 												rs.getString(3));		
+					returnedBenefits = new Benefits(rs.getInt(1), 
+													rs.getInt(2), 
+													rs.getInt(3),
+													rs.getInt(4),
+													rs.getInt(5));			
 				}
 				return returnedBenefits;
-				ps.executeUpdate();
+				
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
+			return returnedBenefits;
 		}	
 		/**
 		 * Allows the user to update all the benefits that has a certain benefitId
@@ -187,15 +270,15 @@ public class Benefitsinterface {
 		 * @param health
 		 * @param kAmount
 		 */
-		public void updateAllBenefit(int benefitId, int dental, int life, int health, double kAmount ) {
-			String query= "UPDATE benefits set  dental= "+ dental +" life="+ life +" health= "+ health +" 401k_match_amount"+ kAmount + "Where benefit_id= "+ benefitId;
+		public void updateAllBenefit(int benefitId, int dental, int life, int health, int kAmount ) {
+			
 			try (Connection c = db.getConnection();
-					PreparedStatement ps = c.prepareStatement(query);) {
-				ps.setInt(1, benefitId);
-				ps.setInt(2, dental);
-				ps.setInt(3, life);
-				ps.setInt(4,health);
-				ps.setDouble(5, kAmount);
+					PreparedStatement ps = c.prepareStatement(UPDATE);) {
+				ps.setInt(1, dental);
+				ps.setInt(2, life);
+				ps.setInt(3, health);
+				ps.setInt(4,kAmount);
+				ps.setInt(5, benefitId);
 				
 				ps.executeUpdate();
 			}
@@ -210,13 +293,15 @@ public class Benefitsinterface {
 		 * @param benefitIdPlan
 		 * @param benefitId
 		 */
-		public void updateOneBenefit(String benefitName, int benefitIdPlan, int benefitId) {
-			String query= "UPDATE benefits set "+ benefitName.toLowerCase() + "= "+ benefitIdPlan +"WHERE benfit_id= "+ benefitId;
+		public void updateOneBenefit(int benefit_id, int dental, int life, int health, int kAmount) {
+			
 			try (Connection c = db.getConnection();
-					PreparedStatement ps = c.prepareStatement(query);) {
-				ps.setString(1, benefitName);
-				ps.setInt(2, benefitIdPlan);
-				ps.setInt(3, benefitId);
+					PreparedStatement ps = c.prepareStatement(UPDATE);) {
+				ps.setInt(1, dental);
+				ps.setInt(2, life);
+				ps.setInt(3, health);
+				ps.setInt(3, kAmount);
+				ps.setInt(3, benefit_id);
 				
 				ps.executeUpdate();
 			}
